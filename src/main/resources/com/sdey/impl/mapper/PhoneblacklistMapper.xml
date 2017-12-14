@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdey.impl.mapper.PhoneblacklistMapper">
+  <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"  />
+  <resultMap id="BaseResultMap" type="com.sdey.api.po.Phoneblacklist">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="blackphone" jdbcType="VARCHAR" property="blackphone" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <select id="getPhoneBlacklist" resultMap="BaseResultMap">
+       select * from  phoneblacklist order by uid desc
+  </select>
+  <select id="checkBlackPhone" resultType="int" useCache="true">
+      select uid from phoneblacklist where blackphone=#{blackphone,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdey.impl.mapper.FollowuplogmessageMapper">
+    <resultMap id="BaseResultMap" type="com.sdey.api.po.Followuplogmessage">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="managerid" jdbcType="INTEGER" property="managerid"/>
+        <result column="handlerip" jdbcType="VARCHAR" property="handlerip"/>
+        <result column="messageid" jdbcType="INTEGER" property="messageid"/>
+        <result column="messagecontent" jdbcType="VARCHAR" property="messagecontent"/>
+        <result column="pationtid" jdbcType="INTEGER" property="pationtid"/>
+        <result column="pationtphone" jdbcType="VARCHAR" property="pationtphone"/>
+        <result column="sendrsid" jdbcType="VARCHAR" property="sendrsid"/>
+        <result column="sendrscode" jdbcType="INTEGER" property="sendrscode"/>
+        <result column="sendrsmessage" jdbcType="VARCHAR" property="sendrsmessage"/>
+        <result column="craetetime" jdbcType="TIMESTAMP" property="craetetime"/>
+        <result column="managername" jdbcType="VARCHAR" property="managername"/>
+        <result column="receivestate" jdbcType="INTEGER" property="receivestate"/>
+    </resultMap>
+    <select id="suifangEnterMessage" resultType="com.sdey.api.vo.FollowuplogmessageExt">
+        select msg.*,msgaccept.content as acceptMsgContent from followuplogmessage msg left join messageaccept msgaccept on msg.receivestate=msgaccept.uid  where msg.pationtid=#{pationtid}
+    </select>
+    <select id="selectIDForsaveMessageaccept" parameterType="com.sdey.api.vo.penoymsg.PeonyMsgAcceptModle_msg"
+            resultType="int">
+    select uid from followuplogmessage where pationtphone=#{phone} and receivestate is null order by uid desc
+  </select>
+    <select id="selectIDForsaveMessageacceptReceivestateNotNull"
+            parameterType="com.sdey.api.vo.penoymsg.PeonyMsgAcceptModle_msg" resultType="int">
+    select uid from followuplogmessage where pationtphone=#{phone} and receivestate is not null order by uid desc
+  </select>
+    <update id="updateMessageReceived" parameterType="com.sdey.api.po.Messageaccept">
+     update followuplogmessage set receivestate=#{uid} where uid=#{followuplogmessageid}
+  </update>
+    <sql id="getAllReceiveMsgByTimeWhere">
+        <where>
+            sendmsg.craetetime BETWEEN #{startTime} and #{endTime}
+            <if test="user!=null and user.name!='超级管理'">
+                and sendmsg.managerid=#{user.uid}
+            </if>
+        </where>
+    </sql>
+    <select id="getAllReceiveMsgByTime" parameterType="com.sdey.api.vo.StatisticsMessageSearch"
+            resultType="com.sdey.api.vo.GetAllReceiveMsgByTimeRs">
+        SELECT
+        sendmsg.handlerip,sendmsg.messagecontent,sendmsg.pationtphone,sendmsg.sendrscode,sendmsg.sendrsmessage,patient.brxm,msgaccept.content
+        as recervemsg,sendmsg.craetetime as sendtime FROM followuplogmessage sendmsg left join patients patient on
+        sendmsg.pationtid=patient.uid
+        left join messageaccept msgaccept on sendmsg.receivestate=msgaccept.uid
+        <include refid="getAllReceiveMsgByTimeWhere"></include>
+        order by sendmsg.craetetime desc
+    </select>
+    <select id="gethuifuCount" parameterType="com.sdey.api.vo.StatisticsMessageSearch" resultType="int">
+        SELECT count(1) FROM followuplogmessage sendmsg left join patients patient on sendmsg.pationtid=patient.uid
+        left join messageaccept msgaccept on sendmsg.receivestate=msgaccept.uid
+        <include refid="getAllReceiveMsgByTimeWhere"></include>
+        and sendmsg.receivestate is not null
+    </select>
+    <select id="getGoodCount" parameterType="com.sdey.api.vo.StatisticsMessageSearch" resultType="int">
+        SELECT count(1) FROM followuplogmessage sendmsg left join patients patient on sendmsg.pationtid=patient.uid
+        left join messageaccept msgaccept on sendmsg.receivestate=msgaccept.uid
+        <include refid="getAllReceiveMsgByTimeWhere"></include>
+        and (msgaccept.content like '%1%' or msgaccept.content like '%满意%');
+    </select>
+    <select id="findDxcontentAndDxState" parameterType="int" resultType="com.sdey.api.vo.ext.DisPatients">
+         SELECT accp.content as dxcontent  FROM sdeyfollowup.followuplogmessage send left join sdeyfollowup.messageaccept accp on send.uid=accp.followuplogmessageid
+         where send.pationtid=#{uid} order by send.uid desc
+    </select>
+</mapper>

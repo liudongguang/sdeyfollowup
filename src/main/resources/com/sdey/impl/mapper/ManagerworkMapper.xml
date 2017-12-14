@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdey.impl.mapper.ManagerworkMapper">
+  <resultMap id="BaseResultMap" type="com.sdey.api.po.Managerwork">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="managerid" jdbcType="INTEGER" property="managerid" />
+    <result column="patientsid" jdbcType="INTEGER" property="patientsid" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="fenpeiDateStr" jdbcType="VARCHAR" property="fenpeidatestr" />
+    <result column="workstate" jdbcType="INTEGER" property="workstate" />
+    <result column="overtime" jdbcType="TIMESTAMP" property="overtime" />
+    <result column="excudenum" jdbcType="INTEGER" property="excudenum" />
+  </resultMap>
+    <update id="finishiwork" parameterType="com.sdey.api.po.Managerwork">
+       update managerwork set workstate=#{workstate},overtime=#{overtime} where uid=#{uid}
+  </update>
+    <select id="getManagerWork" parameterType="string" resultType="com.sdey.api.vo.ext.ManagerWork">
+              SELECT * FROM sdeyfollowup.manager a,(SELECT managerid,count(1) as workcount FROM
+              sdeyfollowup.managerwork  where fenpeiDateStr=#{dateStr} and excudenum is null group by managerid) b where a.uid=b.managerid
+  </select>
+    <select id="selectNotfinishiwork" resultType="com.sdey.api.po.Managerwork">
+       select uid from managerwork where uid=#{uid} and workstate is null
+  </select>
+    <select id="getFenPeiDetailForOffice" parameterType="com.sdey.api.vo.GetFenPeiDetailForOfficeParam" resultType="com.sdey.api.vo.GetFenPeiDetailForOfficeRs">
+           SELECT managertb.uid as managerid,managertb.name as userxingming,bingren.cyks as ksname,count(1) as workcount FROM sdeyfollowup.managerwork worktb
+           left join sdeyfollowup.patients bingren on worktb.patientsid=bingren.uid
+           left join sdeyfollowup.manager managertb on worktb.managerid=managertb.uid
+           <where>
+               worktb.fenpeiDateStr=#{dateStr}
+               <if test="managerid!=null">
+                   and managertb.uid=#{managerid}
+               </if>
+           </where>
+           group by managertb.uid,managertb.name,bingren.cyks order by managerid,workCount
+    </select>
+</mapper>

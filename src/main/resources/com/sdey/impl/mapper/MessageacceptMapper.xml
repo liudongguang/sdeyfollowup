@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdey.impl.mapper.MessageacceptMapper">
+  <resultMap id="BaseResultMap" type="com.sdey.api.po.Messageaccept">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="followuplogmessageid" jdbcType="INTEGER" property="followuplogmessageid" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+  </resultMap>
+  <select id="getMoreReceiveMsg" resultMap="BaseResultMap">
+    select content,time from messageaccept where followuplogmessageid=#{followuplogmessageid}
+  </select>
+</mapper>
