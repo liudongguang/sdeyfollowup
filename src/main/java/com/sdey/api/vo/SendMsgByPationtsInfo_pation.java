@@ -1,6 +1,7 @@
 package com.sdey.api.vo;
 
 import com.ldg.api.vo.MsgResult;
+import com.ldg.api.vo.MsgResult2;
 
 /**
  * Created by LiuDongguang on 2017/3/26.
@@ -9,7 +10,7 @@ public class SendMsgByPationtsInfo_pation {
     private Integer pationID;
     private String phoneNum;
     private Integer workid;
-    private MsgResult msgResult;
+    private MsgResult2 msgResult;
 
     public Integer getWorkid() {
         return workid;
@@ -35,11 +36,11 @@ public class SendMsgByPationtsInfo_pation {
         this.phoneNum = phoneNum;
     }
 
-    public MsgResult getMsgResult() {
+    public MsgResult2 getMsgResult() {
         return msgResult;
     }
 
-    public void setMsgResult(MsgResult msgResult) {
+    public void setMsgResult(MsgResult2 msgResult) {
         this.msgResult = msgResult;
     }
 
