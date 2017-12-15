@@ -68,7 +68,7 @@
             -->
         </Logger>
         <!-- 将业务dao接口填写进去,并用控制台输出即可  -->
-        <logger name="com.sdey.impl.mapper" level="debug" additivity="false">
+        <logger name="com.sdey.impl.mapper" level="ERROR" additivity="false">
             <AppenderRef ref="STDOUT"/>
         </logger>
 
