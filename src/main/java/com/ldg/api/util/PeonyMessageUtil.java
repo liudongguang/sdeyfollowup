@@ -19,11 +19,11 @@ public class PeonyMessageUtil {
 		ClassPathResource hospitalInterface = new ClassPathResource("hisinterface.properties");
 		try {
 			hospitalInterfaceProperties.load(hospitalInterface.getInputStream());
-			StringBuilder mstr=new StringBuilder(hospitalInterfaceProperties.getProperty("msg.userName"));
-			mstr.append(hospitalInterfaceProperties.getProperty("msg.password"));
+			StringBuilder mstr=new StringBuilder(hospitalInterfaceProperties.getProperty("msg.userNameOld"));
+			mstr.append(hospitalInterfaceProperties.getProperty("msg.passwordOld"));
 			sign=MD5Util.string2MD5(mstr.toString());
 			///
-			sendServer=hospitalInterfaceProperties.getProperty("msg.sendServer");
+			sendServer=hospitalInterfaceProperties.getProperty("msg.sendServerOld");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

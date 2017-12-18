@@ -71,7 +71,7 @@ public class PeonyMessageUtil2 {
 		return msgObj;
 	}
 	public static void main(String[] args) {
-		MsgResult2 msgResult = PeonyMessageUtil2.sendMessage("17615827028","测试短信【山大二院】");
+		MsgResult2 msgResult = PeonyMessageUtil2.sendMessage("17615827028","您好，请回复数字评价本次住院情况：1、满意  2、不满意。可在数字后附上说明或致电88197777。祝您早日康复。【山大二院】");
 		System.out.println(msgResult);
 //		System.out.println("******************************************");
 //

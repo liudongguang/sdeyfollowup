@@ -10,15 +10,7 @@ public class SendMsgByPationtsInfo_pation {
     private Integer pationID;
     private String phoneNum;
     private Integer workid;
-    private MsgResult2 msgResult;
-
-    public Integer getWorkid() {
-        return workid;
-    }
-
-    public void setWorkid(Integer workid) {
-        this.workid = workid;
-    }
+    private Object msgResult;
 
     public Integer getPationID() {
         return pationID;
@@ -36,20 +28,19 @@ public class SendMsgByPationtsInfo_pation {
         this.phoneNum = phoneNum;
     }
 
-    public MsgResult2 getMsgResult() {
+    public Integer getWorkid() {
+        return workid;
+    }
+
+    public void setWorkid(Integer workid) {
+        this.workid = workid;
+    }
+
+    public Object getMsgResult() {
         return msgResult;
     }
 
-    public void setMsgResult(MsgResult2 msgResult) {
+    public void setMsgResult(Object msgResult) {
         this.msgResult = msgResult;
-    }
-
-    @Override
-    public String toString() {
-        return "SendMsgByPationtsInfo_pation{" +
-                "pationID=" + pationID +
-                ", phoneNum='" + phoneNum + '\'' +
-                ", msgResult=" + msgResult +
-                '}';
     }
 }

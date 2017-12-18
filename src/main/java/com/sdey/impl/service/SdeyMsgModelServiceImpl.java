@@ -2,9 +2,6 @@ package com.sdey.impl.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ldg.api.util.PeonyMessageUtil;
-import com.ldg.api.util.PeonyMessageUtil2;
-import com.ldg.api.vo.MsgResult;
 import com.ldg.api.vo.MsgResult2;
 import com.ldg.api.vo.PageParam;
 import com.sdey.api.po.Followuplogmessage;
@@ -26,6 +23,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+
+import static com.sdey.impl.service.helper.MsgHandler.sendNewMsg;
+import static com.sdey.impl.service.helper.MsgHandler.sendOldMsg;
 
 /**
  * Created by liudo on 2017/3/24 0024.
@@ -91,34 +91,7 @@ public class SdeyMsgModelServiceImpl implements SdeyMsgModelService {
                     sp.setMsgResult(msgObj);
                     continue;
                 }
-
-                /////////
-                MsgResult2 msgResult = PeonyMessageUtil2.sendMessage(sp.getPhoneNum(), pparam.getMsgContent());
-                if("Success".equals(msgResult.getReturnstatus())){
-                    //通信成功的情况下
-                    if(msgResult.getSuccessCounts()>0){
-                        Followuplogmessage flog = new Followuplogmessage();
-                        flog.setManagerid(managerid);//操作员id
-                        flog.setManagername(managerName);//管理员姓名
-                        flog.setHandlerip(clientIp);//操作员坐在地址
-                        flog.setMessageid(pparam.getMsgid());//短信模版id
-                        flog.setMessagecontent(pparam.getMsgContent());//短信内容
-                        flog.setPationtid(sp.getPationID());//患者id
-                        flog.setPationtphone(sp.getPhoneNum());//患者手机号
-                        flog.setSendrsid(msgResult.getTaskID());
-                        flog.setSendrscode(301);
-                        flog.setSendrsmessage(msgResult.getMessage());
-                        flog.setCraetetime(createTime);
-                        followuplogmessageMapper.insertSelective(flog);
-                        sdeyFollowUpService.finishiwork(sp.getWorkid());
-                    }else{
-                        logger.error("未发送手机号："+sp.getPhoneNum()+"未发送原因："+msgResult.getMessage());
-                    }
-                }else{
-                    logger.error(msgResult.getMessage());
-                    msgResult.setMessage(msgResult.getMessage());
-                }
-                sp.setMsgResult(msgResult);
+                sendOldMsg(sp,pparam,clientIp,managerid,managerName,createTime,followuplogmessageMapper,sdeyFollowUpService);
             }
         }
         return handlerList;
