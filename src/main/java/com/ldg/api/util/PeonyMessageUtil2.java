@@ -66,7 +66,7 @@ public class PeonyMessageUtil2 {
 		/*deng*/
 		String rsMsg=htc.sendHttpPost(sendServer,param);
 		//String rsMsg="{\"returnstatus\":\"Success\",\"message\":\"操作成功\",\"remainpoint\":\"5\",\"taskID\":\"1712143956374926\",\"successCounts\":\"1\"}";
-		System.out.println(rsMsg);
+		//System.out.println(rsMsg);
 		MsgResult2 msgObj=JsonUtil.getObjectByJSON(rsMsg,MsgResult2.class);
 		return msgObj;
 	}
