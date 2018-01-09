@@ -91,7 +91,7 @@ public class SdeyMsgModelServiceImpl implements SdeyMsgModelService {
                     sp.setMsgResult(msgObj);
                     continue;
                 }
-                sendOldMsg(sp,pparam,clientIp,managerid,managerName,createTime,followuplogmessageMapper,sdeyFollowUpService);
+                sendNewMsg(sp,pparam,clientIp,managerid,managerName,createTime,followuplogmessageMapper,sdeyFollowUpService);
             }
         }
         return handlerList;

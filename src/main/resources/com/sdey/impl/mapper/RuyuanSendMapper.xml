@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdey.impl.mapper.RuyuanSendMapper">
+    <resultMap id="BaseResultMap" type="com.sdey.api.po.RuyuanSend">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="hzbirthday" jdbcType="DATE" property="hzbirthday"/>
+        <result column="ryrq" jdbcType="TIMESTAMP" property="ryrq"/>
+        <result column="sendtime" jdbcType="TIMESTAMP" property="sendtime"/>
+        <result column="hz_xingming" jdbcType="VARCHAR" property="hzXingming"/>
+        <result column="sendstate" jdbcType="VARCHAR" property="sendstate"/>
+    </resultMap>
+    <select id="selectByBetweenTime" resultType="int" parameterType="com.sdey.api.bo.DateSearchParam">
+    SELECT count(1) from ruyuan_send where ryrq BETWEEN #{start,jdbcType=TIMESTAMP} and #{end,jdbcType=TIMESTAMP}
+  </select>
+</mapper>
