@@ -13,7 +13,8 @@ public class SdeyBRMsgController {
     @RequestMapping("/sendRuYuan")
     @ResponseBody
     public String sendRuYuan() throws Exception {
-        sdeySendMsgService.sendRuYuanBingren();
+        //sdeySendMsgService.sendRuYuanBingren();
+        System.out.println("666666");
         return "success";
     }
 }

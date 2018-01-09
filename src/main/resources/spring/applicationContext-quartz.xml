@@ -4,21 +4,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="Access_token" class="com.weixin.util.Access_token"></bean>
+	<bean id="sendrybrMSG" class="com.sdey.controller.SdeyBRMsgController" scope="prototype"></bean>
 	<!-- 配置方法映射工厂类 -->
-	<bean id="jobDetail"
+	<bean id="sendRuYuanJob"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="Access_token"></property>
-		<property name="targetMethod" value="init_Access_token"></property>
+		<property name="targetObject" ref="sendrybrMSG"></property>
+		<property name="targetMethod" value="sendRuYuan"></property>
 		<property name="concurrent" value="false"></property>
 		<!-- concurrent : false表示等上一个任务执行完后再开启新的任务 -->
 	</bean>
 	<!-- 配置任务高度的的时间/周期 -->
-	<bean id="getTokenJobTrigger" 
+	<bean id="sendRuYuanTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail" ref="jobDetail"></property>
-		<!-- 每隔一小时55分30秒执行一次： -->
-		<property name="cronExpression" value="30 55 */1 * * ?"></property>
+		<property name="jobDetail" ref="sendRuYuanJob"></property>
+		<!--  -->
+		<property name="cronExpression" value="0 0 18 * * ?"></property>
 		<!-- 延时几毫秒后执行
 		<property name="startDelay" value="1000"></property>
 		 -->
@@ -27,7 +27,7 @@
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="getTokenJobTrigger" />
+				<ref bean="sendRuYuanTrigger" />
 			</list>
 		</property>
 	</bean>
