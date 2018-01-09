@@ -58,7 +58,7 @@ public class SdeySendMsgServiceImpl implements SdeySendMsgService {
     }
 
     public static void main(String[] args) {
-        MsgResult2 msgResult = PeonyMessageUtil2.sendMessage("17615827028","病案复印：可在出院后9天（节假日顺延），携带证件到病案室复印。如办理病案邮递，在出院前周一至周五咨询护士。电话：85875530【山大二院】");
+        MsgResult2 msgResult = PeonyMessageUtil2.sendMessage("18678865388","病案复印：在出院后9天（节假日顺延），带证件到病案室复印。如办理病案邮递，在出院前周一至周五咨询护士。病案室电话85875530【山大二院】");
         System.out.println(msgResult);
     }
 }
